@@ -1,5 +1,6 @@
 body {
   text-align: center;
+  background-color: #999;
 }
 .container {
   width: 960px;
@@ -36,4 +37,7 @@ button {
 }
 button:hover {
   background-color: lightblue;
+}
+#results {
+  /*display: none;*/
 }
