@@ -37,29 +37,47 @@ function SurveyItem(name, ext) {
   this.tallyDisplayed = 0;
 };
 //*********************************
-function displayImageChoices(toBeDisplayed) {
-  var tempVar = surveyItemList[0].filepath;
+function displayImageChoices() {
+  var tempVar = toBeDisplayed[0].filepath;
+  console.log(toBeDisplayed);
   document.getElementById('image1').src = tempVar;
-  tempVar = surveyItemList[1].filepath;
+  tempVar = toBeDisplayed[1].filepath;
   document.getElementById('image2').src = tempVar;
-  tempVar = surveyItemList[2].filepath;
+  tempVar = toBeDisplayed[2].filepath;
   document.getElementById('image3').src = tempVar;
 }
 
 //*********************************
 function getRandomImage() {  //Generates random number to select an item from surveyItemList array.
   for (var i = 0; i < 3; i++) {
+    console.log(surveyItemList.length,'Before moveChoice');
     var tempRand = Math.floor(Math.random() * surveyItemList.length);
-    console.log(tempRand);
+    // console.log(tempRand,'Random number');
+    moveChoice(tempRand);
+    console.log(surveyItemList.length,'After moveChoice');
   }
+  returnChoice();
+  displayImageChoices();
 }
 //*********************************
-function moveChoices() {    //Moves currently displayed images from surveyItemList array to toBeDisplayed array.
-
+//Use the unShift() array method to place the new item at the beginning of the toBeDisplayed array.
+//Moves currently displayed images from surveyItemList array to toBeDisplayed array.
+function moveChoice(position) {
+  toBeDisplayed.unshift(surveyItemList[position]);
+  surveyItemList.splice(position, 1);
 }
 //*********************************
-function returnChoices() {  //Returns previous choices back to surveyItemList array.
-
+//Returns previous choices back to surveyItemList array.
+//Use the pop() method to remove the last item from toBeDisplayed. Use push() to add it back to surveyItemList.
+function returnChoice() {
+  if (toBeDisplayed.length > 3) {
+    console.log('entered returnChoice')
+    for (var j = toBeDisplayed.length; j > 3; j--) {
+      surveyItemList.push(toBeDisplayed[j]);
+      toBeDisplayed.pop();
+      console.log(surveyItemList.length,'After returnChoice');
+    }
+  }
 }
 //*********************************
 for (var i = 0; i < startingArrayList.length; i++) {
