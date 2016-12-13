@@ -34,10 +34,20 @@ button {
   width: 250px;
   height: 40px;
   transition: 350ms all;
+  display: inline;
+  border: 1px solid black;
 }
 button:hover {
   background-color: lightblue;
 }
 #results {
-  /*display: none;*/
+  display: none;
+}
+.disabled {
+  background-color: #ddd;
+  color: #999;
+  border: 1px solid #ccc;
+}
+.disabled:hover {
+  background-color: #ddd;
 }
