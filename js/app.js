@@ -26,7 +26,7 @@ var elSurvey = document.getElementById('survey');
 var elBegin = document.getElementById('begin');
 var elResults = document.getElementById('results');
 var surveyItemList = [];
-
+var toBeDisplayed = [];
 
 // Constructor for object
 function SurveyItem(name, ext) {
@@ -48,7 +48,10 @@ function displayImageChoices(toBeDisplayed) {
 
 //*********************************
 function getRandomImage() {  //Generates random number to select an item from surveyItemList array.
-
+  for (var i = 0; i < 3; i++) {
+    var tempRand = Math.floor(Math.random() * surveyItemList.length);
+    console.log(tempRand);
+  }
 }
 //*********************************
 function moveChoices() {    //Moves currently displayed images from surveyItemList array to toBeDisplayed array.
@@ -68,7 +71,7 @@ for (var i = 0; i < startingArrayList.length; i++) {
 }
 //*********************************
 function handleClickBegin() {
-  displayImageChoices();
+  displayImageChoices(toBeDisplayed);
   elBegin.display = none;     //This is not working yet. Needs to hide one button and display the other.
   elResults.display = block;
 }
