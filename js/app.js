@@ -27,7 +27,8 @@ var elBegin = document.getElementById('begin');
 var elResults = document.getElementById('results');
 var surveyItemList = [];
 var toBeDisplayed = [];
-
+var clickCount = 0;
+var maxClicks = 25;
 // Constructor for object
 function SurveyItem(name, ext) {
   this.name = name;
@@ -53,8 +54,7 @@ function getRandomImage() {  //Generates random number to select an item from su
     var tempRand = Math.floor(Math.random() * surveyItemList.length);
     moveChoice(tempRand);
   }
-  // console.log(toBeDisplayed.length,'toBeDisplayed length before returnChoice');
-  returnChoice();
+  replaceChoice();
   displayImageChoices();
 }
 //*********************************
@@ -67,33 +67,27 @@ function moveChoice(position) {
 //*********************************
 //Returns previous choices back to surveyItemList array.
 //Use the pop() method to remove the last item from toBeDisplayed. Use push() to add it back to surveyItemList.
-function returnChoice() {
+function replaceChoice() {
   if (toBeDisplayed.length > 3) {
-    // console.log('entered returnChoice');
     for (var j = toBeDisplayed.length - 1; j >= 3; j--) {
-      // console.log(j,'value of J');
       surveyItemList.push(toBeDisplayed[j]);
       toBeDisplayed.pop();
-      // console.log(toBeDisplayed.length,'toBeDisplayed length (after pop)');
     }
   }
-  // console.log(toBeDisplayed,'toBeDisplayed outside returnChoice');
-}
-//*********************************
-for (var i = 0; i < startingArrayList.length; i++) {
-  var temp = new SurveyItem(startingArrayList[i][0],startingArrayList[i][1]);
-  surveyItemList.push(temp);
 }
 //*********************************
 function updateTallyClicked(target) {
   if (target === 'image1') {
     toBeDisplayed[0].tallyClicked += 1;
+    console.log(toBeDisplayed[0].name + ' has been clicked.');
   }
   if (target === 'image2') {
     toBeDisplayed[1].tallyClicked += 1;
+    console.log(toBeDisplayed[1].name + ' has been clicked.');
   }
   if (target === 'image3') {
     toBeDisplayed[2].tallyClicked += 1;
+    console.log(toBeDisplayed[2].name + ' has been clicked.');
   }
 }
 //*********************************
@@ -104,24 +98,54 @@ function updateTallyDisplayed() {
   }
 }
 //*********************************
-function handleClick() {
-  console.log(event.target.id);
-  updateTallyClicked(event.target.id);
-  // getRandomImage();
+function calcTotalClicks() {
+  clickCount += 1;
+  if (clickCount === maxClicks) {
+    elResults.className = '';
+    removeListener();
+    clearDisplayArray();
+    // move the rest of toBeDisplayed back into surveyItemList.
+  }
+}
+//*********************************
+function clearDisplayArray() {
+  for (var j = 0; j < toBeDisplayed.length; j++) {
+    surveyItemList.push(toBeDisplayed[j]);
+  }
+}
+//*********************************
+function removeListener() {
+  elSurvey.removeEventListener('click', handleClick);
 }
 //*********************************
 function handleClickBegin() {
   event.preventDefault();
-
-  // console.log(surveyItemList.length);
-  // console.log(toBeDisplayed.length,'toBeDisplayed length beginning');
   getRandomImage();
-  // displayImageChoices(toBeDisplayed);
+  updateButtonStyle();
+}
+//*********************************
+function handleClick() {
+  updateTallyClicked(event.target.id);
+  getRandomImage();
+  calcTotalClicks();
+}
+//*********************************
+function handleClickResults() {
+  for (var i = 0; i < surveyItemList.length; i++) {
+    document.write(surveyItemList[i].name + ' was clicked ' + surveyItemList[i].tallyClicked + ' times.');
+  }
+}
+//*********************************
+function updateButtonStyle() {
   elBegin.style.display = 'none';
   elResults.style.display = 'inline';
 }
 //*********************************
-
+for (var i = 0; i < startingArrayList.length; i++) {
+  var temp = new SurveyItem(startingArrayList[i][0],startingArrayList[i][1]);
+  surveyItemList.push(temp);
+}
+//*********************************
 elSurvey.addEventListener('click', handleClick);
 elBegin.addEventListener('click', handleClickBegin);
-// elResults.addEventListener('click', handleClickResults);
+elResults.addEventListener('click', handleClickResults);
