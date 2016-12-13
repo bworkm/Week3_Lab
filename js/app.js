@@ -1,53 +1,54 @@
 'use strict';
 
-var startingArrayList = [
-  ['bag', '.jpg'],        // 0
-  ['banana', '.jpg'],     // 1
-  ['bathroom', '.jpg'],   // 2
-  ['boots', '.jpg'],      // 3
-  ['breakfast', '.jpg'],  // 4
-  ['bubblegum', '.jpg'],  // 5
-  ['chair', '.jpg'],      // 6
-  ['cthulhu', '.jpg'],    // 7
-  ['dog-duck', '.jpg'],   // 8
-  ['dragon', '.jpg'],     // 9
-  ['pen', '.jpg'],        // 10
-  ['pet-sweep', '.jpg'],  // 11
-  ['scissors', '.jpg'],   // 12
-  ['shark', '.jpg'],      // 13
-  ['sweep', '.png'],      // 14
-  ['tauntaun', '.jpg'],   // 15
-  ['unicorn', '.jpg'],    // 16
-  ['usb', '.gif'],        // 17
-  ['water-can', '.jpg'],  // 18
-  ['wine-glass', '.jpg']  // 19
-];
 var elSurvey = document.getElementById('survey');
 var elBegin = document.getElementById('begin');
 var elResults = document.getElementById('results');
+var startingArrayList = [
+  'bag.jpg',
+  'banana.jpg',
+  'bathroom.jpg',
+  'boots.jpg',
+  'breakfast.jpg',
+  'bubblegum.jpg',
+  'chair.jpg',
+  'cthulhu.jpg',
+  'dog-duck.jpg',
+  'dragon.jpg',
+  'pen.jpg',
+  'pet-sweep.jpg',
+  'scissors.jpg',
+  'shark.jpg',
+  'sweep.png',
+  'tauntaun.jpg',
+  'unicorn.jpg',
+  'usb.gif',
+  'water-can.jpg',
+  'wine-glass.jpg'
+];
 var surveyItemList = [];
 var toBeDisplayed = [];
 var clickCount = 0;
 var maxClicks = 25;
+
 // Constructor for object
-function SurveyItem(name, ext) {
+function SurveyItem(name) {
   this.name = name;
-  this.extension = ext;
-  this.filepath = 'img/' + name + ext;
+  this.filepath = 'img/' + name;
   this.tallyClicked = 0;
   this.tallyDisplayed = 0;
+  surveyItemList.push(this);
 };
 //*********************************
+for (var i = 0; i < startingArrayList.length; i++) {
+  new SurveyItem(startingArrayList[i]);
+}
+//*********************************
 function displayImageChoices() {
-  var tempVar = toBeDisplayed[0].filepath;
-  document.getElementById('image1').src = tempVar;
-  tempVar = toBeDisplayed[1].filepath;
-  document.getElementById('image2').src = tempVar;
-  tempVar = toBeDisplayed[2].filepath;
-  document.getElementById('image3').src = tempVar;
+  document.getElementById('image1').src = toBeDisplayed[0].filepath;
+  document.getElementById('image2').src = toBeDisplayed[1].filepath;
+  document.getElementById('image3').src = toBeDisplayed[2].filepath;
   updateTallyDisplayed();
 }
-
 //*********************************
 function getRandomImage() {  //Generates random number to select an item from surveyItemList array.
   for (var i = 0; i < 3; i++) {
@@ -139,11 +140,6 @@ function handleClickResults() {
 function updateButtonStyle() {
   elBegin.style.display = 'none';
   elResults.style.display = 'inline';
-}
-//*********************************
-for (var i = 0; i < startingArrayList.length; i++) {
-  var temp = new SurveyItem(startingArrayList[i][0],startingArrayList[i][1]);
-  surveyItemList.push(temp);
 }
 //*********************************
 elSurvey.addEventListener('click', handleClick);
