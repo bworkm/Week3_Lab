@@ -3,6 +3,8 @@
 var elSurvey = document.getElementById('survey');
 var elBegin = document.getElementById('begin');
 var elResults = document.getElementById('results');
+var canvas = document.getElementById('chartArea').getContext('2d');
+
 var startingArrayList = [
   'bag.jpg',
   'banana.jpg',
@@ -32,7 +34,7 @@ var maxClicks = 25;
 
 // Constructor for object
 function SurveyItem(name) {
-  this.name = name;
+  this.name = name.slice(0, (name.length - 4));
   this.filepath = 'img/' + name;
   this.tallyClicked = 0;
   this.tallyDisplayed = 0;
@@ -43,11 +45,10 @@ for (var i = 0; i < startingArrayList.length; i++) {
   new SurveyItem(startingArrayList[i]);
 }
 //*********************************
-function displayImageChoices() {
-  document.getElementById('image1').src = toBeDisplayed[0].filepath;
-  document.getElementById('image2').src = toBeDisplayed[1].filepath;
-  document.getElementById('image3').src = toBeDisplayed[2].filepath;
-  updateTallyDisplayed();
+//***********Functions*************
+function updateButtonStyle() {
+  elBegin.style.display = 'none';
+  elResults.style.display = 'inline';
 }
 //*********************************
 function getRandomImage() {  //Generates random number to select an item from surveyItemList array.
@@ -77,25 +78,34 @@ function replaceChoice() {
   }
 }
 //*********************************
-function updateTallyClicked(target) {
-  if (target === 'image1') {
-    toBeDisplayed[0].tallyClicked += 1;
-    console.log(toBeDisplayed[0].name + ' has been clicked.');
-  }
-  if (target === 'image2') {
-    toBeDisplayed[1].tallyClicked += 1;
-    console.log(toBeDisplayed[1].name + ' has been clicked.');
-  }
-  if (target === 'image3') {
-    toBeDisplayed[2].tallyClicked += 1;
-    console.log(toBeDisplayed[2].name + ' has been clicked.');
-  }
+function displayImageChoices() {
+  document.getElementById('image1').src = toBeDisplayed[0].filepath;
+  document.getElementById('image2').src = toBeDisplayed[1].filepath;
+  document.getElementById('image3').src = toBeDisplayed[2].filepath;
+  updateTallyDisplayed();
 }
 //*********************************
 function updateTallyDisplayed() {
   for (var k = 0; k < 3; k++) {
     toBeDisplayed[k].tallyDisplayed += 1;
-    console.log(toBeDisplayed[k].tallyDisplayed);
+  }
+}
+//*********************************
+function validClick() {
+  if (event.target.id !== 'survey') {
+    return true;
+  } else return false;
+}
+//*********************************
+function updateTallyClicked(target) {
+  if (target === 'image1') {
+    toBeDisplayed[0].tallyClicked += 1;
+  }
+  if (target === 'image2') {
+    toBeDisplayed[1].tallyClicked += 1;
+  }
+  if (target === 'image3') {
+    toBeDisplayed[2].tallyClicked += 1;
   }
 }
 //*********************************
@@ -105,13 +115,6 @@ function calcTotalClicks() {
     elResults.className = '';
     removeListener();
     clearDisplayArray();
-    // move the rest of toBeDisplayed back into surveyItemList.
-  }
-}
-//*********************************
-function clearDisplayArray() {
-  for (var j = 0; j < toBeDisplayed.length; j++) {
-    surveyItemList.push(toBeDisplayed[j]);
   }
 }
 //*********************************
@@ -119,29 +122,111 @@ function removeListener() {
   elSurvey.removeEventListener('click', handleClick);
 }
 //*********************************
+function clearDisplayArray() {
+  for (var j = 0; j < toBeDisplayed.length; j++) {
+    surveyItemList.push(toBeDisplayed[j]);
+  }
+}
+//**********Canvas stuff***********
+var titles = [];
+var votes = [];
+var chartDrawn = false;
+
+function drawChart() {
+  var myBarChart = new Chart(canvas, {
+    type: 'bar',
+    data: data,
+    options: {
+      responsive: false
+    }
+  });
+  chartDrawn = true;
+}
+
+var data = {
+  labels: titles, // titles array we declared earlier
+  datasets: [
+    {
+      label: 'My Stuff',
+      data: votes, // votes array we declared earlier
+      backgroundColor: [
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy',
+        'crimson',
+        'red',
+        'forestgreen',
+        'springgreen',
+        'olivedrab',
+        'chocolate',
+        'maroon',
+        'teal',
+        'coral',
+        'gold',
+        'brown',
+        'deeppink',
+        'darkblue',
+        'sadlebrown',
+        'darkslategrey'
+      ],
+      hoverBackgroundColor: [
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+      ]
+    }]
+};
+//*********************************
+
+function getChartData() {
+  for (var i = 0; i < surveyItemList.length; i++) {
+    titles[i] = surveyItemList[i].name;
+    votes[i] = surveyItemList[i].tallyClicked;
+  }
+  console.log(titles);
+}
+//********Event Handlers***********
 function handleClickBegin() {
   event.preventDefault();
-  getRandomImage();
   updateButtonStyle();
+  getRandomImage();
 }
-//*********************************
+
 function handleClick() {
+  if (!validClick(event.target.id)) {
+    return alert('Click on an image.');
+  };
   updateTallyClicked(event.target.id);
   getRandomImage();
   calcTotalClicks();
 }
-//*********************************
+
 function handleClickResults() {
-  for (var i = 0; i < surveyItemList.length; i++) {
-    document.write(surveyItemList[i].name + ' was clicked ' + surveyItemList[i].tallyClicked + ' times.');
-  }
+  // for (var i = 0; i < surveyItemList.length; i++) {
+  // }
+  getChartData();
+  drawChart();
 }
-//*********************************
-function updateButtonStyle() {
-  elBegin.style.display = 'none';
-  elResults.style.display = 'inline';
-}
-//*********************************
+//********Event Listeners**********
 elSurvey.addEventListener('click', handleClick);
 elBegin.addEventListener('click', handleClickBegin);
 elResults.addEventListener('click', handleClickResults);
