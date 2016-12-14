@@ -30,7 +30,7 @@ var startingArrayList = [
 var surveyItemList = [];
 var toBeDisplayed = [];
 var clickCount = 0;
-var maxClicks = 25;
+var maxClicks = 10;
 
 // Constructor for object
 function SurveyItem(name) {
@@ -114,12 +114,17 @@ function calcTotalClicks() {
   if (clickCount === maxClicks) {
     elResults.className = '';
     removeListener();
+    addListener();
     clearDisplayArray();
   }
 }
 //*********************************
 function removeListener() {
   elSurvey.removeEventListener('click', handleClick);
+}
+//*********************************
+function addListener() {
+  elResults.addEventListener('click', handleClickResults);
 }
 //*********************************
 function clearDisplayArray() {
@@ -130,14 +135,23 @@ function clearDisplayArray() {
 //**********Canvas stuff***********
 var titles = [];
 var votes = [];
-var chartDrawn = false;
+var chartDrawn = false;  //Not used yet, but can be used for hiding chart or updating as you go.
 
 function drawChart() {
-  var myBarChart = new Chart(canvas, {
+  new Chart(canvas, {
     type: 'bar',
+    // type: 'polarArea',
+    // type: 'radar',
     data: data,
     options: {
-      responsive: false
+      responsive: false,
+      title: {
+        display: true,
+        text: 'My Chart'
+      },
+      legend: {
+        display: false
+      }
     }
   });
   chartDrawn = true;
@@ -147,30 +161,52 @@ var data = {
   labels: titles, // titles array we declared earlier
   datasets: [
     {
-      label: 'My Stuff',
       data: votes, // votes array we declared earlier
       backgroundColor: [
-        'bisque',
-        'darkgray',
-        'burlywood',
-        'lightblue',
-        'navy',
-        'crimson',
-        'red',
-        'forestgreen',
-        'springgreen',
-        'olivedrab',
-        'chocolate',
-        'maroon',
-        'teal',
-        'coral',
-        'gold',
-        'brown',
-        'deeppink',
-        'darkblue',
-        'sadlebrown',
-        'darkslategrey'
+        'rgba(255,228,196,0.4)',
+        'rgba(220,20,60,0.4)',
+        'rgba(222,184,135,0.4)',
+        'rgba(107,142,35,0.4)',
+        'rgba(0,0,128,0.4)',
+        'rgba(210,105,30,0.4)',
+        'rgba(255,0,0,0.4)',
+        'rgba(34,139,34,0.4)',
+        'rgba(0,255,127,0.4)',
+        'rgba(107,142,35,0.4)',
+        'rgba(210,105,30,0.4)',
+        'rgba(128,0,0,0.4)',
+        'rgba(0,128,128,0.4)',
+        'rgba(255,127,80,0.4)',
+        'rgba(210,105,30,0.4)',
+        'rgba(165,42,42,0.4)',
+        'rgba(255,20,147,0.4)',
+        'rgba(0,0,139,0.4)',
+        'rgba(139,69,19,0.4)',
+        'rgba(112,128,144,0.4)'
       ],
+      borderColor: [
+        'rgba(255,228,196,1)',
+        'rgba(220,20,60,1)',
+        'rgba(222,184,135,1)',
+        'rgba(107,142,35,1)',
+        'rgba(0,0,128,1)',
+        'rgba(210,105,30,1)',
+        'rgba(255,0,0,1)',
+        'rgba(34,139,34,1)',
+        'rgba(0,255,127,1)',
+        'rgba(107,142,35,1)',
+        'rgba(210,105,30,1)',
+        'rgba(128,0,0,1)',
+        'rgba(0,128,128,1)',
+        'rgba(255,127,80,1)',
+        'rgba(210,105,30,1)',
+        'rgba(165,42,42,1)',
+        'rgba(255,20,147,1)',
+        'rgba(0,0,139,1)',
+        'rgba(139,69,19,1)',
+        'rgba(112,128,144,1)'
+      ],
+      borderWidth: 1,
       hoverBackgroundColor: [
         'purple',
         'purple',
@@ -229,4 +265,3 @@ function handleClickResults() {
 //********Event Listeners**********
 elSurvey.addEventListener('click', handleClick);
 elBegin.addEventListener('click', handleClickBegin);
-elResults.addEventListener('click', handleClickResults);
