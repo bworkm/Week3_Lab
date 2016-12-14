@@ -41,6 +41,7 @@ button {
   transition: 350ms all;
   display: inline;
   border: 1px solid black;
+  margin-bottom: 30px;
 }
 button:hover {
   background-color: lightblue;
@@ -55,4 +56,9 @@ button:hover {
 }
 .disabled:hover {
   background-color: #ddd;
+}
+#chartArea {
+  display: none;
+  margin: 0 auto;
+  background-color: white;
 }
