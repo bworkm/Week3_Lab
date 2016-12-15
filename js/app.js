@@ -30,7 +30,7 @@ var startingArrayList = [
 var surveyItemList = [];
 var toBeDisplayed = [];
 var clickCount = 0;
-var maxClicks = 10;
+var maxClicks = 25;
 
 // Constructor for object
 function SurveyItem(name) {
@@ -123,6 +123,7 @@ function calcTotalClicks() {
     elResults.className = '';
     removeListener();
     addListener();
+    clearImagesOnScreen();
     clearDisplayArray();
   }
 }
@@ -133,6 +134,12 @@ function removeListener() {
 //*********************************
 function addListener() {
   elResults.addEventListener('click', handleClickResults);
+}
+//*********************************
+function clearImagesOnScreen() {
+  document.getElementById('image1').src = 'img/game_over.png';
+  document.getElementById('image2').src = 'img/game_over2.jpg';
+  document.getElementById('image3').src = 'img/game_over.jpg';
 }
 //*********************************
 function clearDisplayArray() {
