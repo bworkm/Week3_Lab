@@ -39,10 +39,14 @@ function SurveyItem(name) {
   this.tallyClicked = 0;
   this.tallyDisplayed = 0;
   surveyItemList.push(this);
-};
+}
 //*********************************
-for (var i = 0; i < startingArrayList.length; i++) {
-  new SurveyItem(startingArrayList[i]);
+if (!localStorage.busmall){
+  for (var i = 0; i < startingArrayList.length; i++) {
+    new SurveyItem(startingArrayList[i]);
+  }
+}else{
+  surveyItemList = JSON.parse(localStorage.busmall);
 }
 //*********************************
 //***********Functions*************
@@ -250,10 +254,11 @@ function handleClickBegin() {
 function handleClick() {
   if (!validClick(event.target.id)) {
     return alert('Click on an image.');
-  };
+  }
   updateTallyClicked(event.target.id);
   getRandomImage();
   calcTotalClicks();
+  localStorage.setItem('busmall', JSON.stringify(surveyItemList));
 }
 
 function handleClickResults() {
