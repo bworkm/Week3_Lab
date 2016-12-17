@@ -1,9 +1,8 @@
-title {
-  font-family: sans-serif;
-}
+@import url('https://fonts.googleapis.com/css?family=Aref+Ruqaa|Josefin+Sans|Merriweather|Orbitron');
+
 body {
   text-align: center;
-  background-color: #ddd;
+  background-color: rgb(188, 211, 214);
 }
 .container {
   width: 960px;
@@ -11,21 +10,21 @@ body {
   background-color: #999;
 }
 .container p {
-  width: 50%;
+  width: 60%;
   margin: 0 auto;
+  font-family: Merriweather;
 }
 h1, h2 {
-  font-family: helvetica;
   margin: 0 auto;
   padding: 20px 0px;
 }
 h1 {
-  font-size: 26px;
-  font-family: cursive;
+  font-size: 35px;
+  font-family: Aref Ruqaa;
 }
 h2 {
-  font-size: 20px;
-  font-family: tahoma;
+  font-size: 24px;
+  font-family: Orbitron;
 }
 article {
   margin: 40px auto;
@@ -48,7 +47,7 @@ button {
   display: inline;
   border: 1px solid black;
   margin-bottom: 30px;
-  font-size: 26px;
+  font-size: 20px;
   font-family: cursive;
 }
 button:hover {

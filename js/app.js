@@ -147,6 +147,20 @@ function clearDisplayArray() {
     surveyItemList.push(toBeDisplayed[j]);
   }
 }
+//*********************************
+function sortArrayList() {
+  surveyItemList.sort(function(a, b) {
+    var nameA = a.name.toLowerCase();
+    var nameB = b.name.toLowerCase();
+    if (nameA < nameB)
+      return -1;
+
+    if (nameA > nameB)
+      return 1;
+
+    return 0;
+  });
+};
 //**********Canvas stuff***********
 var titles = [];
 var votes = [];
@@ -275,7 +289,7 @@ function handleClick() {
 function handleClickResults() {
   // for (var i = 0; i < surveyItemList.length; i++) {
   // }
-  // sortArray();
+  sortArrayList();
   getChartData();
   drawChart();
 }
