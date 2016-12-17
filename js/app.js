@@ -4,6 +4,7 @@ var elSurvey = document.getElementById('survey');
 var elBegin = document.getElementById('begin');
 var elResults = document.getElementById('results');
 var canvas = document.getElementById('chartArea').getContext('2d');
+var canvasPercent = document.getElementById('percentArea').getContext('2d');
 
 var startingArrayList = [
   'bag.jpg',
@@ -148,7 +149,26 @@ function clearDisplayArray() {
   }
 }
 //*********************************
-function sortArrayList() {
+function sortPercent() {
+
+  surveyItemList.sort(function(a, b) {
+    var percentA = a.percentClicked;
+    var percentB = b.percentClicked;
+    if (percentA < percentB)
+      return 1;
+
+    if (percentA > percentB)
+      return -1;
+
+    return 0;
+  });
+  for (var i = 0; i < 5; i++) {
+    percentTitles[i] = surveyItemList[i].name;
+    percents[i] = surveyItemList[i].percentClicked;
+  }
+}
+//*********************************
+function sortNames() {
   surveyItemList.sort(function(a, b) {
     var nameA = a.name.toLowerCase();
     var nameB = b.name.toLowerCase();
@@ -160,11 +180,13 @@ function sortArrayList() {
 
     return 0;
   });
-};
+}
 //**********Canvas stuff***********
 var titles = [];
 var votes = [];
-var chartDrawn = false;  //Not used yet, but can be used for hiding chart or updating as you go.
+var percentTitles = [];
+var percents = [];
+
 
 function drawChart() {
   new Chart(canvas, {
@@ -183,8 +205,56 @@ function drawChart() {
       }
     }
   });
-  chartDrawn = true;
 }
+
+function drawPercentChart() {
+  new Chart(canvasPercent, {
+    type: 'bar',
+    // type: 'polarArea',
+    // type: 'radar',
+    data: dataPercent,
+    options: {
+      responsive: false,
+      title: {
+        display: true,
+        text: 'Top 5 by percentage'
+      },
+      legend: {
+        display: false
+      }
+    }
+  });
+}
+
+var dataPercent = {
+  labels: percentTitles,
+  datasets: [
+    {
+      data: percents,
+      backgroundColor: [
+        'rgba(255,0,0,0.4)',
+        'rgba(220,20,60,0.4)',
+        'rgba(222,184,135,0.4)',
+        'rgba(107,142,35,0.4)',
+        'rgba(0,0,128,0.4)'
+      ],
+      borderColor: [
+        'rgba(255,0,0,1)',
+        'rgba(220,20,60,1)',
+        'rgba(222,184,135,1)',
+        'rgba(107,142,35,1)',
+        'rgba(0,0,128,1)'
+      ],
+      borderWidth: 1,
+      hoverBackgroundColor: [
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple'
+      ]
+    }]
+};
 
 var data = {
   labels: titles, // titles array we declared earlier
@@ -266,6 +336,7 @@ function getChartData() {
   for (var i = 0; i < surveyItemList.length; i++) {
     titles[i] = surveyItemList[i].name;
     votes[i] = surveyItemList[i].tallyClicked;
+    percents[i] = surveyItemList[i].percentClicked;
   }
   console.log(titles);
 }
@@ -289,9 +360,11 @@ function handleClick() {
 function handleClickResults() {
   // for (var i = 0; i < surveyItemList.length; i++) {
   // }
-  sortArrayList();
+  sortNames();
   getChartData();
   drawChart();
+  sortPercent();
+  drawPercentChart();
 }
 //********Event Listeners**********
 elSurvey.addEventListener('click', handleClick);

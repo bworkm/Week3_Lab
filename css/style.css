@@ -64,7 +64,7 @@ button:hover {
 .disabled:hover {
   background-color: #ddd;
 }
-#chartArea {
+canvas {
   display: none;
   margin: 0 auto;
   background-color: white;
