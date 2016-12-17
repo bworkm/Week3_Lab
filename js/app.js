@@ -105,15 +105,15 @@ function validClick() {
 function updateTallyClicked(target) {
   if (target === 'image1') {
     toBeDisplayed[0].tallyClicked += 1;
-    toBeDisplayed[0].percentClicked = (toBeDisplayed[0].tallyClicked / toBeDisplayed[0].tallyDisplayed) * 100;
+    toBeDisplayed[0].percentClicked = ((toBeDisplayed[0].tallyClicked / toBeDisplayed[0].tallyDisplayed) * 100).toFixed(2);
   }
   if (target === 'image2') {
     toBeDisplayed[1].tallyClicked += 1;
-    toBeDisplayed[1].percentClicked = (toBeDisplayed[1].tallyClicked / toBeDisplayed[1].tallyDisplayed) * 100;
+    toBeDisplayed[1].percentClicked = ((toBeDisplayed[1].tallyClicked / toBeDisplayed[1].tallyDisplayed) * 100).toFixed(2);
   }
   if (target === 'image3') {
     toBeDisplayed[2].tallyClicked += 1;
-    toBeDisplayed[2].percentClicked = (toBeDisplayed[2].tallyClicked / toBeDisplayed[2].tallyDisplayed) * 100;
+    toBeDisplayed[2].percentClicked = ((toBeDisplayed[2].tallyClicked / toBeDisplayed[2].tallyDisplayed) * 100).toFixed(2);
   }
 }
 //*********************************
@@ -275,6 +275,7 @@ function handleClick() {
 function handleClickResults() {
   // for (var i = 0; i < surveyItemList.length; i++) {
   // }
+  // sortArray();
   getChartData();
   drawChart();
 }

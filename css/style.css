@@ -1,6 +1,9 @@
+title {
+  font-family: sans-serif;
+}
 body {
   text-align: center;
-  background-color: #999;
+  background-color: #ddd;
 }
 .container {
   width: 960px;
@@ -11,23 +14,26 @@ body {
   width: 50%;
   margin: 0 auto;
 }
-h1, h2, h3 {
+h1, h2 {
   font-family: helvetica;
-  margin: 20px auto;
+  margin: 0 auto;
+  padding: 20px 0px;
 }
 h1 {
   font-size: 26px;
+  font-family: cursive;
 }
 h2 {
   font-size: 20px;
+  font-family: tahoma;
 }
 article {
   margin: 40px auto;
 }
 img {
-  height: 300px;
-  width: 300px;
-  margin: 0 13px;  //why is there an extra gap when the page renders?
+  height: 250px;
+  width: 250px;
+  margin: 0 25px;  //why is there an extra gap when the page renders?
 }
 img:first-child {
   margin-left: 0;
@@ -42,6 +48,8 @@ button {
   display: inline;
   border: 1px solid black;
   margin-bottom: 30px;
+  font-size: 26px;
+  font-family: cursive;
 }
 button:hover {
   background-color: lightblue;
@@ -61,4 +69,6 @@ button:hover {
   display: none;
   margin: 0 auto;
   background-color: white;
+  padding-bottom: 10px;
+  margin-bottom: 25px;
 }
